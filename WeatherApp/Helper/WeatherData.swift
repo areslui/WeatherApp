@@ -1,5 +1,5 @@
 //
-//  PhotoData.swift
+//  WeatherData.swift
 //  WeatherApp
 //
 //  Created by Ares on 21/3/2020.
@@ -8,16 +8,16 @@
 
 import Foundation
 
-struct PhotoData {
-  let photoArray: [[String : Any]]
+struct WeatherData {
+  let weatherArray: [[String : Any]]
 }
 
-extension PhotoData: Parsable {
+extension WeatherData: Parsable {
   
-  static func parseObject(dictionary: [String : Any]) -> Result<PhotoData, ErrorResult> {
+  static func parseObject(dictionary: [String : Any]) -> Result<WeatherData, ErrorResult> {
     if let ary = dictionary["items"] as? [[String : Any]] {
       
-      let photoData = PhotoData(photoArray: ary)
+      let photoData = WeatherData(weatherArray: ary)
       return Result.Success(photoData)
     } else {
       return Result.Error(ErrorResult.parser(string: "Unable to parse"))

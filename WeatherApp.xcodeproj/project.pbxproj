@@ -17,7 +17,7 @@
 		3B1D14C32425ED4800A94DF7 /* WeatherAppServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1D14C22425ED4800A94DF7 /* WeatherAppServiceTests.swift */; };
 		3B1D14CE2425ED4800A94DF7 /* WeatherAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1D14CD2425ED4800A94DF7 /* WeatherAppUITests.swift */; };
 		3B4C3D452425F8D30027F7AB /* FetchDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4C3D362425F8D30027F7AB /* FetchDataController.swift */; };
-		3B4C3D462425F8D30027F7AB /* PhotoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4C3D372425F8D30027F7AB /* PhotoData.swift */; };
+		3B4C3D462425F8D30027F7AB /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4C3D372425F8D30027F7AB /* WeatherData.swift */; };
 		3B4C3D472425F8D30027F7AB /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4C3D382425F8D30027F7AB /* ImageDownloader.swift */; };
 		3B4C3D482425F8D30027F7AB /* ParserHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4C3D392425F8D30027F7AB /* ParserHelper.swift */; };
 		3B4C3D492425F8D30027F7AB /* InternetMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4C3D3A2425F8D30027F7AB /* InternetMonitor.swift */; };
@@ -27,7 +27,7 @@
 		3B4C3D4D2425F8D30027F7AB /* ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4C3D412425F8D30027F7AB /* ServiceProtocol.swift */; };
 		3B4C3D4E2425F8D30027F7AB /* RequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4C3D422425F8D30027F7AB /* RequestService.swift */; };
 		3B4C3D4F2425F8D30027F7AB /* RequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4C3D432425F8D30027F7AB /* RequestFactory.swift */; };
-		3B4C3D502425F8D30027F7AB /* PhotoApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4C3D442425F8D30027F7AB /* PhotoApiService.swift */; };
+		3B4C3D502425F8D30027F7AB /* WeatherApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4C3D442425F8D30027F7AB /* WeatherApiService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,7 +64,7 @@
 		3B1D14CD2425ED4800A94DF7 /* WeatherAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAppUITests.swift; sourceTree = "<group>"; };
 		3B1D14CF2425ED4800A94DF7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B4C3D362425F8D30027F7AB /* FetchDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchDataController.swift; sourceTree = "<group>"; };
-		3B4C3D372425F8D30027F7AB /* PhotoData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoData.swift; sourceTree = "<group>"; };
+		3B4C3D372425F8D30027F7AB /* WeatherData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
 		3B4C3D382425F8D30027F7AB /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		3B4C3D392425F8D30027F7AB /* ParserHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParserHelper.swift; sourceTree = "<group>"; };
 		3B4C3D3A2425F8D30027F7AB /* InternetMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternetMonitor.swift; sourceTree = "<group>"; };
@@ -74,7 +74,7 @@
 		3B4C3D412425F8D30027F7AB /* ServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceProtocol.swift; sourceTree = "<group>"; };
 		3B4C3D422425F8D30027F7AB /* RequestService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestService.swift; sourceTree = "<group>"; };
 		3B4C3D432425F8D30027F7AB /* RequestFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestFactory.swift; sourceTree = "<group>"; };
-		3B4C3D442425F8D30027F7AB /* PhotoApiService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoApiService.swift; sourceTree = "<group>"; };
+		3B4C3D442425F8D30027F7AB /* WeatherApiService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherApiService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,7 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				3B4C3D362425F8D30027F7AB /* FetchDataController.swift */,
-				3B4C3D372425F8D30027F7AB /* PhotoData.swift */,
+				3B4C3D372425F8D30027F7AB /* WeatherData.swift */,
 				3B4C3D382425F8D30027F7AB /* ImageDownloader.swift */,
 				3B4C3D392425F8D30027F7AB /* ParserHelper.swift */,
 				3B4C3D3A2425F8D30027F7AB /* InternetMonitor.swift */,
@@ -191,7 +191,7 @@
 			children = (
 				3B4C3D3D2425F8D30027F7AB /* Result */,
 				3B4C3D402425F8D30027F7AB /* Network */,
-				3B4C3D442425F8D30027F7AB /* PhotoApiService.swift */,
+				3B4C3D442425F8D30027F7AB /* WeatherApiService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -351,8 +351,8 @@
 				3B1D14B32425ED4300A94DF7 /* WeatherApp.xcdatamodeld in Sources */,
 				3B4C3D482425F8D30027F7AB /* ParserHelper.swift in Sources */,
 				3B4C3D472425F8D30027F7AB /* ImageDownloader.swift in Sources */,
-				3B4C3D502425F8D30027F7AB /* PhotoApiService.swift in Sources */,
-				3B4C3D462425F8D30027F7AB /* PhotoData.swift in Sources */,
+				3B4C3D502425F8D30027F7AB /* WeatherApiService.swift in Sources */,
+				3B4C3D462425F8D30027F7AB /* WeatherData.swift in Sources */,
 				3B4C3D4F2425F8D30027F7AB /* RequestFactory.swift in Sources */,
 				3B4C3D4D2425F8D30027F7AB /* ServiceProtocol.swift in Sources */,
 				3B4C3D4E2425F8D30027F7AB /* RequestService.swift in Sources */,

@@ -11,14 +11,21 @@ import Foundation
 final class WeatherApiService: WeatherApiServiceProtocol, NetWorkResultProtocol {
   
   private lazy var endPoint: String = {
-    return "https://api.flickr.com/services/feeds/photos_public.gne?format=json&tags=cars&nojsoncallback=1#"
+    return "https://api.worldweatheronline.com/premium/v1/weather.ashx"
+  }()
+  
+  private lazy var apiKey: String = {
+    return "d0db1305b6964712bf630042202103"
   }()
   
   private var task: URLSessionTask?
   
-  func getDataWith(completion: @escaping (Result<PhotoData, ErrorResult>) -> Void) {
+  func getDataWith(completion: @escaping (Result<WeatherData, ErrorResult>) -> Void) {
     cancelFetch()
-    task = RequestService().loadData(urlString: endPoint, completion: networkResult(completion: completion))
+    task = RequestService().loadData(endPoint,
+                                     "",
+                                     apiKey,
+                                     completion: networkResult(completion: completion))
   }
   
   func networkResult<T>(completion: @escaping ((Result<T, ErrorResult>) -> Void)) -> ((Result<Data, ErrorResult>) -> Void) where T : Parsable {

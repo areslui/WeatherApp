@@ -12,7 +12,7 @@ import CoreData
 struct FetchDataController {
   
   lazy var fetchHandler: NSFetchedResultsController<NSFetchRequestResult>? = {
-    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: String(describing: Photo.self))
+    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: String(describing: Weather.self))
     
     // sort contents by author's name
     fetchRequest.sortDescriptors = [NSSortDescriptor(key: "author", ascending: true)]
