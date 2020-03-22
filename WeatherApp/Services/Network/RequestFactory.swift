@@ -18,9 +18,12 @@ final class RequestFactory {
     case PATCH
   }
   
-  static func request(method: Method, url: URL) -> URLRequest {
+  static func request(_ method: Method, _ url: URL, _ parameters: [String : Any]? = nil) -> URLRequest {
     var request = URLRequest(url: url)
     request.httpMethod = method.rawValue
+    if let parameters = parameters {
+      request.httpBody = parameters.percentEncoded()
+    }
     return request
   }
 }

@@ -10,18 +10,18 @@ import Foundation
 
 final class RequestService {
   
-  func loadData(_ urlString: String,
-                _ cityName: String,
-                _ apiKey: String,
+  func loadData(_ urlString: String?,
+                _ cityName: String?,
+                _ apiKey: String?,
                 _ session: URLSession = URLSession(configuration: .default),
                 completion: @escaping (Result<Data, ErrorResult>) -> Void) -> URLSessionTask? {
     
-    guard let url = URL(string: urlString) else {
+    guard let url = URL(string: urlString ?? "") else {
       completion(.Error(.network(string: "Wrong url format")))
       return nil
     }
     
-    var request = RequestFactory.request(method: .GET, url: url)
+    var request = RequestFactory.request(.GET, url)
     
     InternetMonitor().checkInternetConnection { (result) in
       switch result {

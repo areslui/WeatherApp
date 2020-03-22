@@ -9,7 +9,7 @@
 import Foundation
 
 protocol WeatherApiServiceProtocol: class {
-  func getDataWith(completion: @escaping (Result<PhotoData, ErrorResult>) -> Void)
+  func getDataWith(completion: @escaping (Result<WeatherData, ErrorResult>) -> Void)
 }
 
 protocol NetWorkResultProtocol {

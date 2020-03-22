@@ -28,6 +28,7 @@
 		3B4C3D4E2425F8D30027F7AB /* RequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4C3D422425F8D30027F7AB /* RequestService.swift */; };
 		3B4C3D4F2425F8D30027F7AB /* RequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4C3D432425F8D30027F7AB /* RequestFactory.swift */; };
 		3B4C3D502425F8D30027F7AB /* WeatherApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4C3D442425F8D30027F7AB /* WeatherApiService.swift */; };
+		3B75B2FF2427288800D83C8F /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B75B2FE2427288800D83C8F /* Utilities.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		3B4C3D422425F8D30027F7AB /* RequestService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestService.swift; sourceTree = "<group>"; };
 		3B4C3D432425F8D30027F7AB /* RequestFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestFactory.swift; sourceTree = "<group>"; };
 		3B4C3D442425F8D30027F7AB /* WeatherApiService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherApiService.swift; sourceTree = "<group>"; };
+		3B75B2FE2427288800D83C8F /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +184,7 @@
 				3B4C3D392425F8D30027F7AB /* ParserHelper.swift */,
 				3B4C3D3A2425F8D30027F7AB /* InternetMonitor.swift */,
 				3B4C3D3B2425F8D30027F7AB /* Observable.swift */,
+				3B75B2FE2427288800D83C8F /* Utilities.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -356,6 +359,7 @@
 				3B4C3D4F2425F8D30027F7AB /* RequestFactory.swift in Sources */,
 				3B4C3D4D2425F8D30027F7AB /* ServiceProtocol.swift in Sources */,
 				3B4C3D4E2425F8D30027F7AB /* RequestService.swift in Sources */,
+				3B75B2FF2427288800D83C8F /* Utilities.swift in Sources */,
 				3B4C3D4A2425F8D30027F7AB /* Observable.swift in Sources */,
 				3B1D14AD2425ED4300A94DF7 /* ViewController.swift in Sources */,
 				3B1D14A92425ED4300A94DF7 /* AppDelegate.swift in Sources */,

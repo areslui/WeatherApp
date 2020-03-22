@@ -11,73 +11,41 @@ import XCTest
 
 class WeatherAppServiceTests: XCTestCase {
   
-  var viewModel: WeatherViewModel!
+  // system under test
+  var sut: URLSession!
   
   override func setUp() {
     super.setUp()
-    viewModel = WeatherViewModel(apiService: MockPhotoApiService())
+    sut = URLSession(configuration: .default)
   }
   
   override func tearDown() {
-    viewModel = nil
+    sut = nil
     super.tearDown()
   }
   
-  func testFakeJsonData() {
-    // given
-    let promise = expectation(description: "Status code: 200")
-
-    // when
-    viewModel.fetchPhotoData { (success) in
-      if success {
-        print("testFakeJsonData success!!!")
-      }
-      promise.fulfill()
-
-      // then
-      XCTAssertEqual(success, true, "result should be true!")
-    }
-    wait(for: [promise], timeout: 5)
-  }
-}
-
-final class MockPhotoApiService: WeatherApiServiceProtocol, NetWorkResultProtocol {
-  
-  private lazy var endPoint: String = {
-    return "https://api.flickr.com/services/feeds/photos_public.gne?format=json&tags=cars&nojsoncallback=1#"
-  }()
-       
-  private var task: URLSessionTask?
-  
-  func getDataWith(completion: @escaping (Result<WeatherData, ErrorResult>) -> Void) {
-    cancelFetch()
-    task = RequestService().loadData(urlString: endPoint, completion: networkResult(completion: completion))
-  }
-  
-  func networkResult<T>(completion: @escaping ((Result<T, ErrorResult>) -> Void)) -> ((Result<Data, ErrorResult>) -> Void) where T : Parsable {
+  func testSucessServiceCall() {
+    let url = URL(string: "https://api.worldweatheronline.com/premium/v1/weather.ashx")
     
-    return { dataResult in
-      DispatchQueue.global(qos: .background).async(execute: {
-        switch dataResult {
-        case .Success(_) :
-          let testBundle = Bundle.main
-          let path = testBundle.path(forResource: "CoreData", ofType: "json")
-          let fakeData = try? Data(contentsOf: URL(fileURLWithPath: path!))
-          ParserHelper.parse(data: fakeData!, completion: completion)
-          break
-        case .Error(let error) :
-          debugPrint("\(type(of: self)): \(#function): Network error \(error)")
-          completion(.Error(.network(string: "Network error " + error.localizedDescription)))
-          break
+    // given
+    let postParameters = ["key": "d0db1305b6964712bf630042202103", "q": "New+York"]
+    let request = RequestFactory.request(.POST, url!, postParameters)
+    let promise = expectation(description: "Status code: 200")
+    
+    // when
+    let dataTask = sut.dataTask(with: request) { (data, response, error) in
+      if let error = error {
+        XCTFail("Error: \(error.localizedDescription)")
+      } else if let statusCode = (response as? HTTPURLResponse)?.statusCode {
+        if statusCode == 200 {
+          promise.fulfill()
+        } else {
+          XCTFail("Status code: \(statusCode)")
         }
-      })
+      }
     }
-  }
-  
-  private func cancelFetch() {
-    if let task = task {
-      task.cancel()
-    }
-    task = nil
+    dataTask.resume()
+    // then
+    wait(for: [promise], timeout: 5)
   }
 }
