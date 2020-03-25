@@ -13,7 +13,7 @@ final class RequestService {
   func loadData(_ urlString: String?,
                 _ cityName: String?,
                 _ apiKey: String?,
-                _ session: URLSession = URLSession(configuration: .default),
+                _ session: WeatherApiSessionProtocol,
                 completion: @escaping (Result<Data, ErrorResult>) -> Void) -> URLSessionTask? {
     
     guard let url = URL(string: urlString ?? "") else {
@@ -21,7 +21,7 @@ final class RequestService {
       return nil
     }
     
-    var request = RequestFactory.request(.GET, url)
+    var request = RequestFactory.request(.POST, url)
     
     InternetMonitor().checkInternetConnection { (result) in
       switch result {

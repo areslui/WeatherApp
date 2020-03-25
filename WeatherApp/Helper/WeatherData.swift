@@ -14,10 +14,9 @@ struct WeatherData {
 
 extension WeatherData: Parsable {
   
-  static func parseObject(dictionary: [String : Any]) -> Result<WeatherData, ErrorResult> {
-    if let ary = dictionary["items"] as? [[String : Any]] {
-      
-      let photoData = WeatherData(weatherArray: ary)
+  static func parseObject(_ dictionary: [String : Any]) -> Result<WeatherData, ErrorResult> {
+    if let ary = dictionary["data"] as? [String : Any] {
+      let photoData = WeatherData(weatherArray: [ary])
       return Result.Success(photoData)
     } else {
       return Result.Error(ErrorResult.parser(string: "Unable to parse"))

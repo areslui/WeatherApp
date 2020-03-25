@@ -14,8 +14,8 @@ final class ParserHelper {
     
     do {
       if let dictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] {
-
-        switch T.parseObject(dictionary: dictionary) {
+        
+        switch T.parseObject(dictionary) {
         case .Error(let error):
           completion(.Error(error))
           break
@@ -31,3 +31,4 @@ final class ParserHelper {
     }
   }
 }
+

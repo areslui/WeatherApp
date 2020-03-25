@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class WeatherApiService: WeatherApiServiceProtocol, NetWorkResultProtocol {
+final class WeatherApiService {
   
   private lazy var endPoint: String = {
     return "https://api.worldweatheronline.com/premium/v1/weather.ashx"
@@ -18,16 +18,27 @@ final class WeatherApiService: WeatherApiServiceProtocol, NetWorkResultProtocol 
     return "d0db1305b6964712bf630042202103"
   }()
   
-  private var task: URLSessionTask?
+  var defaultSession: WeatherApiSessionProtocol = URLSession(configuration: .default)
+  private var dataTask: URLSessionDataTask?
   
   func getDataWith(completion: @escaping (Result<WeatherData, ErrorResult>) -> Void) {
     cancelFetch()
-    task = RequestService().loadData(endPoint,
+    dataTask = RequestService().loadData(endPoint,
                                      "",
                                      apiKey,
-                                     completion: networkResult(completion: completion))
+                                     defaultSession,
+                                     completion: networkResult(completion: completion)) as? URLSessionDataTask
   }
   
+  private func cancelFetch() {
+    if let dataTask = dataTask {
+      dataTask.cancel()
+    }
+    dataTask = nil
+  }
+}
+
+extension WeatherApiService: NetWorkResultProtocol {
   func networkResult<T>(completion: @escaping ((Result<T, ErrorResult>) -> Void)) -> ((Result<Data, ErrorResult>) -> Void) where T : Parsable {
     
     return { dataResult in
@@ -43,12 +54,5 @@ final class WeatherApiService: WeatherApiServiceProtocol, NetWorkResultProtocol 
         }
       })
     }
-  }
-  
-  private func cancelFetch() {
-    if let task = task {
-      task.cancel()
-    }
-    task = nil
   }
 }

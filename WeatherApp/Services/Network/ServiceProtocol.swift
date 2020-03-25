@@ -8,9 +8,12 @@
 
 import Foundation
 
-protocol WeatherApiServiceProtocol: class {
-  func getDataWith(completion: @escaping (Result<WeatherData, ErrorResult>) -> Void)
+protocol WeatherApiSessionProtocol: class {
+  func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+  func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
 }
+
+extension URLSession: WeatherApiSessionProtocol { }
 
 protocol NetWorkResultProtocol {
   func networkResult<T: Parsable>(completion: @escaping ((Result<T, ErrorResult>) -> Void)) ->
@@ -18,6 +21,6 @@ protocol NetWorkResultProtocol {
 }
 
 protocol Parsable {
-  static func parseObject(dictionary: [String: Any]) -> Result<Self, ErrorResult>
+  static func parseObject(_ dictionary: [String: Any]) -> Result<Self, ErrorResult>
 }
 
