@@ -77,13 +77,23 @@ extension WeatherViewController: UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return filteredTableData.count
+    if searchBarController.isActive {
+      return filteredTableData.count
+    } else {
+      guard let coreDataCount = viewModel.dataSource?.coreDataFetchCountForView() else { return 0 }
+      return coreDataCount
+    }
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    
     let cell = tableView.dequeueReusableCell(withIdentifier: "weatherCell", for: indexPath)
-    cell.textLabel?.text = filteredTableData[indexPath.row]
+    
+    if searchBarController.isActive {
+      cell.textLabel?.text = filteredTableData[indexPath.row]
+    } else {
+      guard let weatherObj = viewModel.dataSource?.coreDatafetchObjectAtIndex(indexPath) else { return UITableViewCell() }
+      cell.textLabel?.text = weatherObj.city
+    }
     return cell
   }
 }

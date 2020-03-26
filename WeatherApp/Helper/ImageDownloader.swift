@@ -11,15 +11,18 @@ import UIKit
 
 class ImageDownloader {
   
-  private let url: URL
+  private let url: URL?
+  private let session: WeatherApiSessionProtocol
   
-  init(url: String?) {
-    self.url = URL(string: url ?? "")!
+  init(_ url: String?, _ session: WeatherApiSessionProtocol) {
+    self.url = URL(string: url ?? "")
+    self.session = session
   }
   
   func startDownloadImage(completeDownload: ((Data?) -> ())?) {
+    guard let url = url else { return }
     let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 30)
-    URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
+    session.dataTask(with: request, completionHandler: { (data, response, error) in
       debugPrint("RESPONSE FROM API: \(String(describing: response))")
       if error != nil {
         debugPrint("ERROR LOADING IMAGES FROM URL: \(String(describing: error))")

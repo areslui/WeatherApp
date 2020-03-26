@@ -70,14 +70,21 @@ class WeatherViewModel {
           let query = requestAry[0]["query"] as? String {
           weatherEntity.city = query
         }
-//        weatherEntity.humidity = dictionary["tags"] as? String
-        //        weatherEntity.temparature
-        //        weatherEntity.weather
-        //        let mediaUrlString = mediaDictionary?["m"] as? String
-        //        let imageDownloader = ImageDownloader(url: mediaUrlString)
-        //        imageDownloader.startDownloadImage(completeDownload: { (imageData) in
-        //          weatherEntity.imageData = imageData
-        //        })
+        if let currentAry = dataDict["current_condition"] as? [[String : Any]],
+          let temp_C = currentAry[0]["temp_C"] as? String,
+          let humidity = currentAry[0]["humidity"] as? String,
+          let imageAry = currentAry[0]["weatherIconUrl"] as? [Any],
+          let imageDict = imageAry[0] as? [String : Any],
+          let imageUrl = imageDict["value"] as? String {
+            weatherEntity.temparature = temp_C
+            weatherEntity.humidity = humidity
+          
+          guard let apiService = self.apiService else { return }
+          let imageDownloader = ImageDownloader(imageUrl, apiService.imageSession)
+          imageDownloader.startDownloadImage(completeDownload: { (imageData) in
+            weatherEntity.imageData = imageData
+          })
+        }
       }
     })
   }

@@ -34,6 +34,7 @@
 		3B75B30724274BB100D83C8F /* WeatherDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B75B30624274BB100D83C8F /* WeatherDataSource.swift */; };
 		3BA373112427605800968503 /* URLSessionMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA373102427605800968503 /* URLSessionMock.swift */; };
 		3BA373132429026400968503 /* SGData.json in Resources */ = {isa = PBXBuildFile; fileRef = 3BA373122429026400968503 /* SGData.json */; };
+		93205D24242C90DB006E9840 /* cloud.png in Resources */ = {isa = PBXBuildFile; fileRef = 93205D23242C90DB006E9840 /* cloud.png */; };
 		93FB0AED242C342F00E7ADE9 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FB0AEC242C342F00E7ADE9 /* ActivityView.swift */; };
 /* End PBXBuildFile section */
 
@@ -88,6 +89,7 @@
 		3B75B30624274BB100D83C8F /* WeatherDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataSource.swift; sourceTree = "<group>"; };
 		3BA373102427605800968503 /* URLSessionMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionMock.swift; sourceTree = "<group>"; };
 		3BA373122429026400968503 /* SGData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SGData.json; sourceTree = "<group>"; };
+		93205D23242C90DB006E9840 /* cloud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud.png; sourceTree = "<group>"; };
 		93FB0AEC242C342F00E7ADE9 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -159,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				3BA373122429026400968503 /* SGData.json */,
+				93205D23242C90DB006E9840 /* cloud.png */,
 				3B75B3022427429E00D83C8F /* WeatherAppFakeServiceTests.swift */,
 				3B1D14C22425ED4800A94DF7 /* WeatherAppServiceTests.swift */,
 				3B1D14C42425ED4800A94DF7 /* Info.plist */,
@@ -358,6 +361,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93205D24242C90DB006E9840 /* cloud.png in Resources */,
 				3BA373132429026400968503 /* SGData.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

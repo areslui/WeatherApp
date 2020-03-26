@@ -19,6 +19,7 @@ final class WeatherApiService {
   }()
   
   var defaultSession: WeatherApiSessionProtocol = URLSession(configuration: .default)
+  var imageSession: WeatherApiSessionProtocol = URLSession(configuration: .default)
   private var dataTask: URLSessionDataTask?
   
   func getDataWith(completion: @escaping (Result<WeatherData, ErrorResult>) -> Void) {
