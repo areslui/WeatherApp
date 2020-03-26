@@ -14,7 +14,7 @@ struct FetchDataController {
   lazy var fetchHandler: NSFetchedResultsController<NSFetchRequestResult>? = {
     let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: String(describing: Weather.self))
     
-    fetchRequest.sortDescriptors = [NSSortDescriptor(key: "city", ascending: true)]
+    fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
     guard let viewContext = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {
       return NSFetchedResultsController()
     }
