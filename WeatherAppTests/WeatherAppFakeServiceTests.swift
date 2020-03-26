@@ -66,7 +66,7 @@ class WeatherAppFakeServiceTests: XCTestCase {
     wait(for: [promise], timeout: 5)
     // then
     sut.dataSource?.coreDataPerformFetch()
-    XCTAssertEqual(sut.dataSource?.fetchDataController?.fetchHandler?.sections?.first?.numberOfObjects, 1, "Didn't parse 1 items from fake response")
+    XCTAssertEqual(sut.dataSource?.fetchDataController?.fetchHandler?.sections?.first?.numberOfObjects, 1, "should only got 1 item in db")
     sut.dataSource?.clearCoreData(true)
   }
   
