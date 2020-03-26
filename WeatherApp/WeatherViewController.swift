@@ -59,6 +59,7 @@ extension WeatherViewController: UITableViewDelegate {
     if searchBarController.isActive {
       viewModel.fetchWeatherData(filteredTableData[indexPath.row]) { [weak self] (success) in
         if success {
+          self?.viewModel.performFetch()
           self?.reloadTableViewInMainThread()
         }
       }
