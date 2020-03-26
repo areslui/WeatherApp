@@ -47,7 +47,6 @@ class WeatherDataSource {
     } catch let error {
       debugPrint("\(type(of: self)): \(#function): \(error)")
     }
-    clearCoreData()
   }
   
   func clearCoreData(_ isClearAll: Bool? = nil) {
@@ -63,9 +62,9 @@ class WeatherDataSource {
           _ = fetchResults.map{ $0.map{ context.delete($0) } }
         } else {
           if let fetchResults = try context.fetch(fetchRequest) as? [NSManagedObject],
-            let firstObj = fetchResults.first,
+            let lastObj = fetchResults.last,
             fetchResults.count > 3 {
-            context.delete(firstObj)
+            context.delete(lastObj)
           }
         }
         self.saveDataWithViewContext()
