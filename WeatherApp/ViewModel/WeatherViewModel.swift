@@ -23,7 +23,7 @@ class WeatherViewModel {
     self.apiService = apiService
   }
   
-  func fetchPhotoData(completion: @escaping (Bool) -> ()) {
+  func fetchWeatherData(completion: @escaping (Bool) -> ()) {
     guard let service = apiService else {
       errorHandling?(.custom(string: "Sevice missing!!!"))
       return

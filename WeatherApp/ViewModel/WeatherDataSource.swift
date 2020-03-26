@@ -57,7 +57,7 @@ class WeatherDataSource {
         let objects = try context.fetch(fetchRequest) as? [NSManagedObject]
         _ = objects.map{ $0.map{ context.delete($0) } }
         self.saveDataWithViewContext()
-      } catch let error {
+      } catch {
         debugPrint("\(type(of: self)): \(#function): ERROR DELETING : \(error)")
       }
     })
