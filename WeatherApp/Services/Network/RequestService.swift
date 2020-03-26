@@ -10,18 +10,22 @@ import Foundation
 
 final class RequestService {
   
-  func loadData(_ urlString: String?,
-                _ cityName: String?,
-                _ apiKey: String?,
+  func loadData(_ urlString: String,
+                _ countryName: String,
+                _ apiKey: String,
                 _ session: WeatherApiSessionProtocol,
                 completion: @escaping (Result<Data, ErrorResult>) -> Void) -> URLSessionTask? {
     
-    guard let url = URL(string: urlString ?? "") else {
+    guard let url = URL(string: urlString) else {
       completion(.Error(.network(string: "Wrong url format")))
       return nil
     }
-    
-    var request = RequestFactory.request(.POST, url)
+    var postDict = [String : Any]()
+    postDict["key"] = apiKey
+    postDict["date"] = "today"
+    postDict["q"] = countryName
+    postDict["format"] = "json"
+    var request = RequestFactory.request(.POST, url, postDict)
     
     InternetMonitor().checkInternetConnection { (result) in
       switch result {

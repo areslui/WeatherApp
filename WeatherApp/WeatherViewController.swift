@@ -33,16 +33,6 @@ class WeatherViewController: UIViewController {
     tableView.tableHeaderView = searchBarController.searchBar
   }
   
-  private func fetchDataOfSelectedRow() {
-    viewModel.fetchWeatherData(completion: { [weak self] (success) in
-      if success {
-        self?.reloadTableViewInMainThread()
-      } else {
-        debugPrint("\(type(of: self)): \(#function): fetch weather data failed!")
-      }
-    })
-  }
-  
   private func reloadTableViewInMainThread() {
     if Thread.isMainThread {
       self.tableView.reloadData()
@@ -66,7 +56,13 @@ class WeatherViewController: UIViewController {
 extension WeatherViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    print(filteredTableData[indexPath.row])
+    if searchBarController.isActive {
+      viewModel.fetchWeatherData(filteredTableData[indexPath.row]) { [weak self] (success) in
+        if success {
+          self?.reloadTableViewInMainThread()
+        }
+      }
+    }
   }
 }
 
@@ -80,7 +76,9 @@ extension WeatherViewController: UITableViewDataSource {
     if searchBarController.isActive {
       return filteredTableData.count
     } else {
-      guard let coreDataCount = viewModel.dataSource?.coreDataFetchCountForView() else { return 0 }
+      guard let coreDataCount = viewModel.dataSource?.coreDataFetchCountForView() else {
+        return 0
+      }
       return coreDataCount
     }
   }
@@ -91,7 +89,9 @@ extension WeatherViewController: UITableViewDataSource {
     if searchBarController.isActive {
       cell.textLabel?.text = filteredTableData[indexPath.row]
     } else {
-      guard let weatherObj = viewModel.dataSource?.coreDatafetchObjectAtIndex(indexPath) else { return UITableViewCell() }
+      guard let weatherObj = viewModel.dataSource?.coreDatafetchObjectAtIndex(indexPath) else {
+        return UITableViewCell()
+      }
       cell.textLabel?.text = weatherObj.city
     }
     return cell

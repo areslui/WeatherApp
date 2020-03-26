@@ -22,10 +22,10 @@ final class WeatherApiService {
   var imageSession: WeatherApiSessionProtocol = URLSession(configuration: .default)
   private var dataTask: URLSessionDataTask?
   
-  func getDataWith(completion: @escaping (Result<WeatherData, ErrorResult>) -> Void) {
+  func getDataWith(_ countryString: String? = nil, completion: @escaping (Result<WeatherData, ErrorResult>) -> Void) {
     cancelFetch()
     dataTask = RequestService().loadData(endPoint,
-                                     "",
+                                     countryString ?? "",
                                      apiKey,
                                      defaultSession,
                                      completion: networkResult(completion: completion)) as? URLSessionDataTask

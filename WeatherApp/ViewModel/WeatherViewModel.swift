@@ -23,7 +23,7 @@ class WeatherViewModel {
     self.apiService = apiService
   }
   
-  func fetchWeatherData(completion: @escaping (Bool) -> ()) {
+  func fetchWeatherData(_ countryString: String, completion: @escaping (Bool) -> ()) {
     guard let service = apiService else {
       errorHandling?(.custom(string: "Sevice missing!!!"))
       return
@@ -31,12 +31,11 @@ class WeatherViewModel {
     isLoading.value = true
     isTableViewHidden.value = true
     
-    service.getDataWith { [weak self] (result) in
+    service.getDataWith(countryString) { [weak self] (result) in
       
       switch result {
         
       case .Success(let data):
-        self?.clearData()
         self?.saveInCoreDataWith(data.weatherArray)
         completion(true)
         
@@ -59,7 +58,7 @@ class WeatherViewModel {
   func saveInCoreDataWith(_ array: [[String : Any]]) {
     _ = array.map{ createPhotoEntityFrom($0) }
     dataSource?.saveDataWithViewContext()
-    debugPrint(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+    debugPrint("\(type(of: self)): \(#function): core data db path =", FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
   }
   
   private func createPhotoEntityFrom(_ dataDict: [String : Any]) {
@@ -76,8 +75,9 @@ class WeatherViewModel {
           let imageAry = currentAry[0]["weatherIconUrl"] as? [Any],
           let imageDict = imageAry[0] as? [String : Any],
           let imageUrl = imageDict["value"] as? String {
-            weatherEntity.temparature = temp_C
-            weatherEntity.humidity = humidity
+          weatherEntity.temparature = temp_C
+          weatherEntity.humidity = humidity
+          weatherEntity.date = Date()
           
           guard let apiService = self.apiService else { return }
           let imageDownloader = ImageDownloader(imageUrl, apiService.imageSession)
