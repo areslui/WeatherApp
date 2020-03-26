@@ -50,6 +50,10 @@ class WeatherViewModel {
     }
   }
   
+  func performFetch() {
+    dataSource?.coreDataPerformFetch()
+  }
+  
   // MARK: - Data Process
   
   func saveInCoreDataWith(_ array: [[String : Any]]) {
