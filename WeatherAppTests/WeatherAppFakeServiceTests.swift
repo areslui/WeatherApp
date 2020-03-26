@@ -41,7 +41,7 @@ class WeatherAppFakeServiceTests: XCTestCase {
   func testUpdateResultsParsesData() {
     // given
     let promise = expectation(description: "query = Singapore, Singapore")
-    sut.dataSource?.clearCoreData()
+    sut.dataSource?.clearCoreData(true)
     sut.dataSource?.coreDataPerformFetch()
     XCTAssertEqual(sut.dataSource?.fetchDataController?.fetchHandler?.sections?.first?.numberOfObjects, 0, "should be empty before task runs")
     
@@ -67,6 +67,7 @@ class WeatherAppFakeServiceTests: XCTestCase {
     // then
     sut.dataSource?.coreDataPerformFetch()
     XCTAssertEqual(sut.dataSource?.fetchDataController?.fetchHandler?.sections?.first?.numberOfObjects, 1, "Didn't parse 1 items from fake response")
+    sut.dataSource?.clearCoreData(true)
   }
   
   func testPerformanceExample() {

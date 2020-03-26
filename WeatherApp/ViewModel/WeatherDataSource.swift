@@ -47,15 +47,27 @@ class WeatherDataSource {
     } catch let error {
       debugPrint("\(type(of: self)): \(#function): \(error)")
     }
+    clearCoreData()
   }
   
-  func clearCoreData () {
+  func clearCoreData(_ isClearAll: Bool? = nil) {
     getViewContext(completion: { (viewContext) in
-      guard let context = viewContext else { return }
-      let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Weather")
+      guard let context = viewContext,
+        let fetchRequest = self.fetchDataController?.fetchHandler?.fetchRequest else {
+          return
+      }
       do {
-        let objects = try context.fetch(fetchRequest) as? [NSManagedObject]
-        _ = objects.map{ $0.map{ context.delete($0) } }
+        if let isClearAll = isClearAll,
+          isClearAll {
+          let fetchResults = try context.fetch(fetchRequest) as? [NSManagedObject]
+          _ = fetchResults.map{ $0.map{ context.delete($0) } }
+        } else {
+          if let fetchResults = try context.fetch(fetchRequest) as? [NSManagedObject],
+            let firstObj = fetchResults.first,
+            fetchResults.count > 3 {
+            context.delete(firstObj)
+          }
+        }
         self.saveDataWithViewContext()
       } catch {
         debugPrint("\(type(of: self)): \(#function): ERROR DELETING : \(error)")
