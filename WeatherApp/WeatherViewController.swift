@@ -11,7 +11,7 @@ import CoreData
 import CoreLocation
 
 class WeatherViewController: UIViewController {
-
+  
   @IBOutlet weak var tableView: UITableView!
   var searchBarController = UISearchController(searchResultsController: nil)
   var filteredTableData = [String]()
@@ -23,8 +23,9 @@ class WeatherViewController: UIViewController {
     super.viewDidLoad()
     searchBarSetup()
     viewModel.performFetch()
+    viewModel.dataSource?.fetchDataController?.fetchHandler?.delegate = self
   }
-
+  
   private func searchBarSetup() {
     searchBarController.searchResultsUpdater = self
     searchBarController.obscuresBackgroundDuringPresentation = false
@@ -53,8 +54,6 @@ extension WeatherViewController: UITableViewDelegate {
       viewModel.fetchWeatherData(filteredTableData[indexPath.row]) { [weak self] (success) in
         self?.loadingView.stopAnimatingOnMainThread()
         if success {
-          self?.viewModel.performFetch()
-          self?.reloadTableViewInMainThread()
         }
       }
     }
@@ -107,5 +106,45 @@ extension WeatherViewController: UISearchResultsUpdating {
       }
     }
     reloadTableViewInMainThread()
+  }
+}
+
+// MARK: - NSFetchedResultsControllerDelegate
+
+extension WeatherViewController: NSFetchedResultsControllerDelegate {
+  
+  func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+    
+    switch type {
+      
+    case .insert:
+      guard let newIndexPath = newIndexPath else { return }
+      self.tableView.insertRows(at: [newIndexPath], with: .automatic)
+      
+    case .update:
+      guard let newIndexPath = newIndexPath else { return }
+      self.tableView.reloadRows(at: [newIndexPath], with: .automatic)
+      
+    case .move:
+      guard let indexPath = indexPath else { return }
+      guard let newIndexPath = newIndexPath else { return }
+      self.tableView.moveRow(at: indexPath, to: newIndexPath)
+      
+    case .delete:
+      guard let indexPath = indexPath else { return }
+      self.tableView.deleteRows(at: [indexPath], with: .automatic)
+      
+    @unknown default:
+      fatalError()
+    }
+  }
+  
+  func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    tableView.endUpdates()
+  }
+  
+  func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    searchBarController.isActive = false
+    tableView.beginUpdates()
   }
 }
