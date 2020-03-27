@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import CoreLocation
 
 class WeatherViewController: UIViewController {
 
@@ -57,7 +58,9 @@ extension WeatherViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     if searchBarController.isActive {
+      loadingView.startAnimatingOnMainThread()
       viewModel.fetchWeatherData(filteredTableData[indexPath.row]) { [weak self] (success) in
+        self?.loadingView.stopAnimatingOnMainThread()
         if success {
           self?.viewModel.performFetch()
           self?.reloadTableViewInMainThread()

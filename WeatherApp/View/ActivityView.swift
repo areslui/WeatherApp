@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-struct ActivityView {
+class ActivityView {
   
   lazy var loadingIdicator: UIActivityIndicatorView = {
     let indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.medium)
@@ -24,8 +24,45 @@ struct ActivityView {
   }()
   
   private var loadingView: UIView
+  var obsecuresView = UIView()
   
   init(loadingView: UIView) {
     self.loadingView = loadingView
+  }
+  
+  private func addObsecuresView() {
+    obsecuresView.backgroundColor = UIColor(white: 0.5, alpha: 0.5)
+    obsecuresView.translatesAutoresizingMaskIntoConstraints = false
+    loadingView.addSubview(obsecuresView)
+    NSLayoutConstraint.activate([
+      obsecuresView.topAnchor.constraint(equalTo: loadingView.topAnchor),
+      obsecuresView.leftAnchor.constraint(equalTo: loadingView.leftAnchor),
+      obsecuresView.bottomAnchor.constraint(equalTo: loadingView.bottomAnchor),
+      obsecuresView.rightAnchor.constraint(equalTo: loadingView.rightAnchor)
+    ])
+  }
+  
+  func startAnimatingOnMainThread() {
+    if Thread.isMainThread {
+      addObsecuresView()
+      loadingIdicator.startAnimating()
+    } else {
+      DispatchQueue.main.async {
+        self.addObsecuresView()
+        self.loadingIdicator.startAnimating()
+      }
+    }
+  }
+  
+  func stopAnimatingOnMainThread() {
+    if Thread.isMainThread {
+      loadingIdicator.stopAnimating()
+      obsecuresView.removeFromSuperview()
+    } else {
+      DispatchQueue.main.async {
+        self.loadingIdicator.stopAnimating()
+        self.obsecuresView.removeFromSuperview()
+      }
+    }
   }
 }
