@@ -16,6 +16,7 @@ class WeatherViewModel {
   var errorHandling: ((ErrorResult?) -> Void)?
   let isLoading = Observable<Bool>(value: false)
   let isTableViewHidden = Observable<Bool>(value: false)
+  lazy var locationString = ""
   
   init(dataSource: WeatherDataSource = WeatherDataSource(),
        apiService: WeatherApiService = WeatherApiService()) {
@@ -23,15 +24,16 @@ class WeatherViewModel {
     self.apiService = apiService
   }
   
-  func fetchWeatherData(_ countryString: String, completion: @escaping (Bool) -> ()) {
+  func fetchWeatherData(_ location: String, completion: @escaping (Bool) -> ()) {
     guard let service = apiService else {
       errorHandling?(.custom(string: "Sevice missing!!!"))
       return
     }
+    locationString = location
     isLoading.value = true
     isTableViewHidden.value = true
     
-    service.getDataWith(countryString) { [weak self] (result) in
+    service.getDataWith(locationString) { [weak self] (result) in
       
       switch result {
         
@@ -66,10 +68,7 @@ class WeatherViewModel {
     dataSource?.getViewContext(completion: { (viewContext) in
       guard let context = viewContext else { return }
       if let weatherEntity = NSEntityDescription.insertNewObject(forEntityName: "Weather", into: context) as? Weather {
-        if let requestAry = dataDict["request"] as? [[String : Any]],
-          let query = requestAry[0]["query"] as? String {
-          weatherEntity.city = query.components(separatedBy: ",")[0]
-        }
+        weatherEntity.city = self.locationString
         if let currentAry = dataDict["current_condition"] as? [[String : Any]],
           let temp_C = currentAry[0]["temp_C"] as? String,
           let humidity = currentAry[0]["humidity"] as? String,

@@ -11,7 +11,7 @@ import Foundation
 final class RequestService {
   
   func loadData(_ urlString: String,
-                _ countryName: String,
+                _ location: String,
                 _ apiKey: String,
                 _ session: WeatherApiSessionProtocol,
                 completion: @escaping (Result<Data, ErrorResult>) -> Void) -> URLSessionTask? {
@@ -23,7 +23,7 @@ final class RequestService {
     var postDict = [String : Any]()
     postDict["key"] = apiKey
     postDict["date"] = "today"
-    postDict["q"] = countryName
+    postDict["q"] = location.replacingOccurrences(of: " ", with: "+")
     postDict["format"] = "json"
     var request = RequestFactory.request(.POST, url, postDict)
     
