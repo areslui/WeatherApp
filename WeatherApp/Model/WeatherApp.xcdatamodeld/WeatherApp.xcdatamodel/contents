@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19D76" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19D76" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Weather" representedClassName="Weather" syncable="YES" codeGenerationType="class">
         <attribute name="city" optional="YES" attributeType="String"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="humidity" optional="YES" attributeType="String"/>
         <attribute name="imageData" optional="YES" attributeType="Binary"/>
         <attribute name="temparature" optional="YES" attributeType="String"/>
         <attribute name="weather" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Weather" positionX="-63" positionY="-18" width="128" height="118"/>
+        <element name="Weather" positionX="-63" positionY="-18" width="128" height="133"/>
     </elements>
 </model>
