@@ -63,7 +63,7 @@ class WeatherDataSource {
         } else {
           if let fetchResults = try context.fetch(fetchRequest) as? [NSManagedObject],
             let lastObj = fetchResults.last,
-            fetchResults.count > 3 {
+            fetchResults.count > 10 {
             context.delete(lastObj)
           }
         }
