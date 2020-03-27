@@ -18,9 +18,7 @@ class WeatherViewController: UIViewController {
   
   lazy var viewModel = WeatherViewModel()
   lazy var loadingView = ActivityView(loadingView: view)
-  
-  var blockOperations = [BlockOperation]()
-  
+    
   override func viewDidLoad() {
     super.viewDidLoad()
     searchBarSetup()
@@ -42,13 +40,6 @@ class WeatherViewController: UIViewController {
         self.tableView.reloadData()
       }
     }
-  }
-  
-  // MARK: - Deinit
-  
-  deinit {
-    blockOperations.forEach { $0.cancel() }
-    blockOperations.removeAll(keepingCapacity: false)
   }
 }
 
@@ -116,60 +107,5 @@ extension WeatherViewController: UISearchResultsUpdating {
       }
     }
     reloadTableViewInMainThread()
-  }
-}
-
-// MARK: - NSFetchedResultsControllerDelegate
-
-extension WeatherViewController: NSFetchedResultsControllerDelegate {
-  
-  func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-    
-    switch type {
-      
-    case .insert:
-      guard let newIndexPath = newIndexPath else { return }
-      let op = BlockOperation { [weak self] in
-        self?.tableView.insertRows(at: [(newIndexPath as IndexPath)], with: .automatic)
-      }
-      blockOperations.append(op)
-      
-    case .update:
-      guard let newIndexPath = newIndexPath else { return }
-      let op = BlockOperation { [weak self] in
-        self?.tableView.reloadRows(at: [(newIndexPath as IndexPath)], with: .automatic)
-      }
-      blockOperations.append(op)
-      
-    case .move:
-      guard let indexPath = indexPath else { return }
-      guard let newIndexPath = newIndexPath else { return }
-      let op = BlockOperation { [weak self] in
-        self?.tableView.moveRow(at: indexPath as IndexPath, to: newIndexPath as IndexPath)
-      }
-      blockOperations.append(op)
-      
-    case .delete:
-      guard let indexPath = indexPath else { return }
-      let op = BlockOperation { [weak self] in
-        self?.tableView.deleteRows(at: [(indexPath as IndexPath)], with: .automatic)
-      }
-      blockOperations.append(op)
-      
-    @unknown default:
-      fatalError()
-    }
-  }
-  
-  func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-    tableView.performBatchUpdates({
-      self.blockOperations.forEach { $0.start() }
-    }, completion: { (finished) in
-      self.blockOperations.removeAll(keepingCapacity: false)
-    })
-  }
-  
-  func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-    blockOperations.removeAll(keepingCapacity: false)
   }
 }
