@@ -57,12 +57,12 @@ class WeatherViewModel {
   // MARK: - Data Process
   
   func saveInCoreDataWith(_ array: [[String : Any]]) {
-    _ = array.map{ createPhotoEntityFrom($0) }
+    _ = array.map{ createWeatherEntityFrom($0) }
     dataSource?.saveDataWithViewContext()
     debugPrint("\(type(of: self)): \(#function): core data db path =", FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
   }
   
-  private func createPhotoEntityFrom(_ dataDict: [String : Any]) {
+  private func createWeatherEntityFrom(_ dataDict: [String : Any]) {
     dataSource?.getViewContext(completion: { (viewContext) in
       guard let context = viewContext else { return }
       if let weatherEntity = NSEntityDescription.insertNewObject(forEntityName: "Weather", into: context) as? Weather {

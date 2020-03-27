@@ -16,8 +16,8 @@ extension WeatherData: Parsable {
   
   static func parseObject(_ dictionary: [String : Any]) -> Result<WeatherData, ErrorResult> {
     if let ary = dictionary["data"] as? [String : Any] {
-      let photoData = WeatherData(weatherArray: [ary])
-      return Result.Success(photoData)
+      let data = WeatherData(weatherArray: [ary])
+      return Result.Success(data)
     } else {
       return Result.Error(ErrorResult.parser(string: "Unable to parse"))
     }
