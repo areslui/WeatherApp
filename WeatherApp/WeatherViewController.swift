@@ -18,7 +18,7 @@ class WeatherViewController: UIViewController {
   
   lazy var viewModel = WeatherViewModel()
   lazy var loadingView = ActivityView(loadingView: view)
-    
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     searchBarSetup()
@@ -62,6 +62,12 @@ extension WeatherViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     if searchBarController.isActive {
       viewModel.fetchWeatherData(filteredTableData[indexPath.row])
+    } else {
+//      guard let rowObj = viewModel.dataSource?.coreDatafetchObjectAtIndex(indexPath),
+//        let locationString = rowObj.city else {
+//          return
+//      }
+      // TODO: present view
     }
   }
 }
@@ -107,8 +113,8 @@ extension WeatherViewController: UISearchResultsUpdating {
     filteredTableData.removeAll(keepingCapacity: false)
     if let searchText = searchController.searchBar.text {
       let searchPredicate = NSPredicate(format: "SELF CONTAINS[c] %@", searchText)
-      if let array = viewModel.dataSource?.countryList.filter({ searchPredicate.evaluate(with: $0) }) {
-        filteredTableData = array
+      if let cityList = viewModel.dataSource?.cityList as? [String] {
+        filteredTableData = cityList.filter({ searchPredicate.evaluate(with: $0) })
       }
     }
     reloadTableViewInMainThread()

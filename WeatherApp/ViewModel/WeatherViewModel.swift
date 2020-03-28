@@ -69,9 +69,13 @@ class WeatherViewModel {
           let humidity = currentAry[0]["humidity"] as? String,
           let imageAry = currentAry[0]["weatherIconUrl"] as? [Any],
           let imageDict = imageAry[0] as? [String : Any],
-          let imageUrl = imageDict["value"] as? String {
+          let imageUrl = imageDict["value"] as? String,
+          let weatherAry = currentAry[0]["weatherDesc"] as? [Any],
+          let weatherDict = weatherAry[0] as? [String : Any],
+          let weather = weatherDict["value"] as? String {
           weatherEntity.temparature = temp_C
           weatherEntity.humidity = humidity
+          weatherEntity.weather = weather
           weatherEntity.date = Date()
           
           guard let apiService = self.apiService else { return }

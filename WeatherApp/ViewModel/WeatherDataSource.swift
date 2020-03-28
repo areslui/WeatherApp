@@ -12,10 +12,10 @@ import UIKit
 class WeatherDataSource {
   
   var fetchDataController: FetchDataController?
-  lazy var countryList: [String] = NSLocale.isoCountryCodes.map { (code) -> String in
-    let id = NSLocale.localeIdentifier(fromComponents: [NSLocale.Key.countryCode.rawValue: code])
-    return NSLocale(localeIdentifier: "en_US").displayName(forKey: NSLocale.Key.identifier, value: id) ?? "Country not found for code: \(code)"
-  }
+  
+  lazy var cityList: [String?] = {
+    return TimeZone.knownTimeZoneIdentifiers.map { $0.components(separatedBy: "/").last?.replacingOccurrences(of: "_", with: " ") }
+  }()
   
   init(_ fetchDataController: FetchDataController = FetchDataController()) {
     self.fetchDataController = fetchDataController
