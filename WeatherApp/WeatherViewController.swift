@@ -24,6 +24,7 @@ class WeatherViewController: UIViewController {
     searchBarSetup()
     viewModel.performFetch()
     viewModel.dataSource?.fetchDataController?.fetchHandler?.delegate = self
+    initBinding()
   }
   
   private func searchBarSetup() {
@@ -31,6 +32,16 @@ class WeatherViewController: UIViewController {
     searchBarController.obscuresBackgroundDuringPresentation = false
     searchBarController.searchBar.sizeToFit()
     tableView.tableHeaderView = searchBarController.searchBar
+  }
+  
+  private func initBinding() {
+    viewModel.isLoading.addObserver { [weak self] (isLoading) in
+      if isLoading {
+        self?.loadingView.startAnimatingOnMainThread()
+      } else {
+        self?.loadingView.stopAnimatingOnMainThread()
+      }
+    }
   }
   
   private func reloadTableViewInMainThread() {
@@ -50,12 +61,7 @@ extension WeatherViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     if searchBarController.isActive {
-      loadingView.startAnimatingOnMainThread()
-      viewModel.fetchWeatherData(filteredTableData[indexPath.row]) { [weak self] (success) in
-        self?.loadingView.stopAnimatingOnMainThread()
-        if success {
-        }
-      }
+      viewModel.fetchWeatherData(filteredTableData[indexPath.row])
     }
   }
 }
