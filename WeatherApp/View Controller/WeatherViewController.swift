@@ -63,10 +63,14 @@ extension WeatherViewController: UITableViewDelegate {
     if searchBarController.isActive {
       viewModel.fetchWeatherData(filteredTableData[indexPath.row])
     } else {
-//      guard let rowObj = viewModel.dataSource?.coreDatafetchObjectAtIndex(indexPath),
-//        let locationString = rowObj.city else {
-//          return
-//      }
+      guard let rowObj = viewModel.dataSource?.coreDatafetchObjectAtIndex(indexPath),
+        let city = rowObj.city,
+        let weather = rowObj.weather,
+        let humidity = rowObj.humidity,
+        let imageData = rowObj.imageData,
+        let tempC = rowObj.temparature else {
+          return
+      }
       // TODO: present view
     }
   }
