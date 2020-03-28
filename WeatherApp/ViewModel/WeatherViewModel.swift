@@ -15,7 +15,6 @@ class WeatherViewModel {
   var dataSource: WeatherDataSource?
   var errorHandling: ((ErrorResult?) -> Void)?
   let isLoading = Observable<Bool>(value: false)
-  let isTableViewHidden = Observable<Bool>(value: false)
   lazy var locationString = ""
   
   init(dataSource: WeatherDataSource = WeatherDataSource(),
@@ -24,14 +23,13 @@ class WeatherViewModel {
     self.apiService = apiService
   }
   
-  func fetchWeatherData(_ location: String, completion: @escaping (Bool) -> ()) {
+  func fetchWeatherData(_ location: String) {
     guard let service = apiService else {
       errorHandling?(.custom(string: "Sevice missing!!!"))
       return
     }
     locationString = location
     isLoading.value = true
-    isTableViewHidden.value = true
     
     service.getDataWith(locationString) { [weak self] (result) in
       
@@ -40,15 +38,12 @@ class WeatherViewModel {
       case .Success(let data):
         self?.saveInCoreDataWith(data.weatherArray)
         self?.clearData()
-        completion(true)
         
       case .Error(let message):
         self?.errorHandling?(message)
-        completion(false)
         debugPrint("\(type(of: self)): \(#function): \(message)")
       }
       self?.isLoading.value = false
-      self?.isTableViewHidden.value = false
     }
   }
   
