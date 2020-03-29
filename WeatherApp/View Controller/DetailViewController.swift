@@ -34,7 +34,15 @@ class DetailViewController: UIViewController {
     if let imageData = weatherObj.imageData {
       weatherIcon.image = UIImage.init(data: imageData)
     }
-//    currentTime.text = weatherObj.date
+    currentTime.text = weatherObj.date?.toString(dateFormat: "yyyy-MM-dd HH:mm:ss")
     humidity.text = weatherObj.humidity
+  }
+}
+
+extension Date {
+  func toString( dateFormat format  : String ) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = format
+    return dateFormatter.string(from: self)
   }
 }
