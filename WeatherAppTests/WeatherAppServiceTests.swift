@@ -54,7 +54,6 @@ class WeatherAppServiceTests: XCTestCase {
   func testCallCompletes() {
     // given
     let url = URL(string: "https://api.worldweatheronline.com/premium/v1/weather.ashx")
-    // 1
     let postParameters = ["key": "d0db1305b6964712bf630042202103", "q": "New+York"]
     let request = RequestFactory.request(.POST, url!, postParameters)
     let promise = expectation(description: "Completion handler invoked")
@@ -65,11 +64,9 @@ class WeatherAppServiceTests: XCTestCase {
     let dataTask = sut.dataTask(with: request) { data, response, error in
       statusCode = (response as? HTTPURLResponse)?.statusCode
       responseError = error
-      // 2
       promise.fulfill()
     }
     dataTask.resume()
-    // 3
     wait(for: [promise], timeout: 5)
     
     // then

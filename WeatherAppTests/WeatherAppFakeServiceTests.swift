@@ -70,10 +70,10 @@ class WeatherAppFakeServiceTests: XCTestCase {
     sut.dataSource?.clearCoreData(true)
   }
   
-  func testPerformanceExample() {
-    // This is an example of a performance test case.
-    self.measure {
-      // Put the code you want to measure the time of here.
+  func testImageDownloadPerformance() {
+    let downloader = ImageDownloader("http://cdn.worldweatheronline.net/images/wsymbols01_png_64/wsymbol_0004_black_low_cloud.png", URLSession(configuration: .default))
+    measure {
+      downloader.startDownloadImage(completeDownload: nil)
     }
   }
   
