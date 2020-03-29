@@ -36,8 +36,9 @@ class WeatherViewModel {
       switch result {
         
       case .Success(let data):
+        self?.dataSource?.clearCoreData(isRemoveDuplicate: true, location)
         self?.saveInCoreDataWith(data.weatherArray)
-        self?.clearData()
+        self?.dataSource?.clearCoreData()
         completion(true)
       case .Error(let message):
         self?.errorHandling?(message)
@@ -87,9 +88,5 @@ class WeatherViewModel {
         }
       }
     })
-  }
-  
-  private func clearData() {
-    dataSource?.clearCoreData()
   }
 }

@@ -49,8 +49,9 @@ class WeatherDataSource {
     }
   }
   
-  func clearCoreData(_ isClearAll: Bool? = nil) {
+  func clearCoreData(_ isClearAll: Bool? = nil, isRemoveDuplicate: Bool? = nil, _ locationString: String? = nil) {
     getViewContext(completion: { (viewContext) in
+      
       guard let context = viewContext,
         let fetchRequest = self.fetchDataController?.fetchHandler?.fetchRequest else {
           return
@@ -60,6 +61,16 @@ class WeatherDataSource {
           isClearAll {
           let fetchResults = try context.fetch(fetchRequest) as? [NSManagedObject]
           _ = fetchResults.map{ $0.map{ context.delete($0) } }
+          
+        } else if let isRemoveDuplicate = isRemoveDuplicate,
+          isRemoveDuplicate {
+          if let fetchResults = try context.fetch(fetchRequest) as? [Weather] {
+            for city in fetchResults {
+              if city.city == locationString {
+                context.delete(city)
+              }
+            }
+          }
         } else {
           if let fetchResults = try context.fetch(fetchRequest) as? [NSManagedObject],
             let lastObj = fetchResults.last,
@@ -93,3 +104,4 @@ class WeatherDataSource {
     return fetchDataController?.fetchHandler?.sections?.first?.numberOfObjects
   }
 }
+
