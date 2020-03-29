@@ -81,28 +81,28 @@ class WeatherViewController: UIViewController {
 extension WeatherViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    var inputCityStr = ""
     if searchBarController.isActive {
-      viewModel.fetchWeatherData(filteredTableData[indexPath.row], completion: { [weak self] (success) in
-        if let self = self,
-          success {
-          self.viewModel.performFetch()
-          guard let objs = self.viewModel.dataSource?.fetchDataController?.fetchHandler?.sections?.first?.objects,
-            let typedObj = objs[0] as? Weather
-            else {
-              return
-          }
-          self.tappedObj = typedObj
-          self.performSegueInMainThread("showDetailView")
-        }
-      })
+      inputCityStr = filteredTableData[indexPath.row]
     } else {
-      guard let rowObj = viewModel.dataSource?.coreDatafetchObjectAtIndex(indexPath)
-        else {
-          return
+      if let cityStr = viewModel.dataSource?.coreDatafetchObjectAtIndex(indexPath)?.city {
+        inputCityStr = cityStr
       }
-      tappedObj = rowObj
-      self.performSegueInMainThread("showDetailView")
     }
+    viewModel.fetchWeatherData(inputCityStr, completion: { [weak self] (success) in
+      if let self = self,
+        success {
+        self.viewModel.performFetch()
+        guard let objs = self.viewModel.dataSource?.fetchDataController?.fetchHandler?.sections?.first?.objects,
+          let typedObj = objs[0] as? Weather
+          else {
+            return
+        }
+        self.tappedObj = typedObj
+        self.performSegueInMainThread("showDetailView")
+      }
+    })
   }
 }
 
