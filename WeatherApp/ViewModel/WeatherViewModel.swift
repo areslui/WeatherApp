@@ -23,7 +23,7 @@ class WeatherViewModel {
     self.apiService = apiService
   }
   
-  func fetchWeatherData(_ location: String) {
+  func fetchWeatherData(_ location: String, completion: @escaping (Bool) -> Void) {
     guard let service = apiService else {
       errorHandling?(.custom(string: "Sevice missing!!!"))
       return
@@ -38,9 +38,10 @@ class WeatherViewModel {
       case .Success(let data):
         self?.saveInCoreDataWith(data.weatherArray)
         self?.clearData()
-        
+        completion(true)
       case .Error(let message):
         self?.errorHandling?(message)
+        completion(false)
         debugPrint("\(type(of: self)): \(#function): \(message)")
       }
       self?.isLoading.value = false

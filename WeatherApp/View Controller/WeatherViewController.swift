@@ -55,6 +55,16 @@ class WeatherViewController: UIViewController {
     }
   }
   
+  private func performSegueInMainThread(_ id: String) {
+    if Thread.isMainThread {
+      performSegue(withIdentifier: id, sender: self)
+    } else {
+      DispatchQueue.main.async {
+        self.performSegue(withIdentifier: id, sender: self)
+      }
+    }
+  }
+  
   // MARK: - Navigation
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -72,14 +82,26 @@ extension WeatherViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     if searchBarController.isActive {
-      viewModel.fetchWeatherData(filteredTableData[indexPath.row])
+      viewModel.fetchWeatherData(filteredTableData[indexPath.row], completion: { [weak self] (success) in
+        if let self = self,
+          success {
+          self.viewModel.performFetch()
+          guard let objs = self.viewModel.dataSource?.fetchDataController?.fetchHandler?.sections?.first?.objects,
+            let typedObj = objs[0] as? Weather
+            else {
+              return
+          }
+          self.tappedObj = typedObj
+          self.performSegueInMainThread("showDetailView")
+        }
+      })
     } else {
       guard let rowObj = viewModel.dataSource?.coreDatafetchObjectAtIndex(indexPath)
         else {
           return
       }
       tappedObj = rowObj
-      performSegue(withIdentifier: "showDetailView", sender: self)
+      self.performSegueInMainThread("showDetailView")
     }
   }
 }
