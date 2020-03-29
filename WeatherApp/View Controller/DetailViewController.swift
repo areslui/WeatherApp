@@ -11,6 +11,8 @@ import UIKit
 
 class DetailViewController: UIViewController {
   
+  var weatherObj: Weather?
+  
   override func viewDidLoad() {
     super.viewDidLoad()
   }

@@ -16,8 +16,9 @@ class WeatherViewController: UIViewController {
   var searchBarController = UISearchController(searchResultsController: nil)
   var filteredTableData = [String]()
   
-  lazy var viewModel = WeatherViewModel()
+  var viewModel = WeatherViewModel()
   lazy var loadingView = ActivityView(loadingView: view)
+  lazy var tappedObj = Weather()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -53,6 +54,16 @@ class WeatherViewController: UIViewController {
       }
     }
   }
+  
+  // MARK: - Navigation
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "showDetailView" {
+      guard let vc = segue.destination as? DetailViewController else { return }
+      vc.weatherObj = tappedObj
+    }
+  }
+  
 }
 
 // MARK: - TableView Delegate and DataSource
@@ -63,15 +74,12 @@ extension WeatherViewController: UITableViewDelegate {
     if searchBarController.isActive {
       viewModel.fetchWeatherData(filteredTableData[indexPath.row])
     } else {
-      guard let rowObj = viewModel.dataSource?.coreDatafetchObjectAtIndex(indexPath),
-        let city = rowObj.city,
-        let weather = rowObj.weather,
-        let humidity = rowObj.humidity,
-        let imageData = rowObj.imageData,
-        let tempC = rowObj.temparature else {
+      guard let rowObj = viewModel.dataSource?.coreDatafetchObjectAtIndex(indexPath)
+        else {
           return
       }
-      // TODO: present view
+      tappedObj = rowObj
+      performSegue(withIdentifier: "showDetailView", sender: self)
     }
   }
 }
