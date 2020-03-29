@@ -26,6 +26,7 @@ class WeatherViewController: UIViewController {
     viewModel.performFetch()
     viewModel.dataSource?.fetchDataController?.fetchHandler?.delegate = self
     initBinding()
+    errorHandler()
   }
   
   private func searchBarSetup() {
@@ -61,6 +62,21 @@ class WeatherViewController: UIViewController {
     } else {
       DispatchQueue.main.async {
         self.performSegue(withIdentifier: id, sender: self)
+      }
+    }
+  }
+  
+  // MARK: - Error Handler
+  
+  func errorHandler() {
+    viewModel.errorHandling = { [weak self] errorMessage in
+      DispatchQueue.main.async {
+        let controller = UIAlertController(title: "Error!!!", message: errorMessage?.value, preferredStyle: .alert)
+        controller.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
+        guard let self = self else {
+          return
+        }
+        self.present(controller, animated: true, completion: nil)
       }
     }
   }
