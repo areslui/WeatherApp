@@ -19,12 +19,18 @@ class WeatherAppUITests: XCTestCase {
   }
   
   func testUIFlow() {
+    
     let app = XCUIApplication()
     let searchField = app.searchFields["Search"]
     searchField.tap()
     searchField.typeText("Taipei")
     app.searchFields["Search"].buttons["Clear text"].tap()
     searchField.typeText("Singapore")
+    app.tables.staticTexts["Singapore"].tap()
+    app.navigationBars["WeatherApp.DetailView"].buttons["Search"].tap()
+    
+    searchField.tap()
+    app.buttons["Cancel"].tap()
     app.tables.staticTexts["Singapore"].tap()
     app.navigationBars["WeatherApp.DetailView"].buttons["Search"].tap()
   }
