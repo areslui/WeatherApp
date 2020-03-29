@@ -10,6 +10,7 @@ import Foundation
 
 final class RequestService {
   
+  @discardableResult
   func loadData(_ urlString: String,
                 _ location: String,
                 _ apiKey: String,

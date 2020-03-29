@@ -77,4 +77,14 @@ class WeatherAppFakeServiceTests: XCTestCase {
     }
   }
   
+  func testServicePerformance() {
+    measure {
+      RequestService().loadData("https://api.worldweatheronline.com/premium/v1/weather.ashx",
+                                "Singapore",
+                                "d0db1305b6964712bf630042202103",
+                                URLSession(configuration: .default)) { (results) in
+                                  // do nothing
+      }
+    }
+  }
 }
